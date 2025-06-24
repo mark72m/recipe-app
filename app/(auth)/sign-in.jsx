@@ -72,7 +72,7 @@ const SignInScreen = () => {
               <View style={authStyles.inputContainer}>
                 <TextInput
                 style={authStyles.textInput}
-                placeholder="Enter Email"
+                placeholder="Enter Email Now"
                 placeholderTextColor={COLORS.textLight}
                 value={email}
                 onChangeText={setEmail}
