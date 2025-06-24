@@ -66,7 +66,7 @@ const SignInScreen = () => {
               contentFit="contain"/>
             </View>
 
-            <Text style={authStyles.title}>Welcome Back</Text>
+            <Text style={authStyles.title}>👋 Welcome Back</Text>
 
             {/* FORM CONTAINER*/}
             <View style={authStyles.formContainer}>
