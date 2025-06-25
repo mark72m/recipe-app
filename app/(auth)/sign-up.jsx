@@ -1,9 +1,11 @@
-import { View, Text, Alert, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { View, Text, Alert, KeyboardAvoidingView, Platform, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import {useRouter} from "expo-router";
 import {useSignUp} from "@clerk/clerk-expo";
 import {useState} from "react";
 import {authStyles} from "../../assets/styles/auth.styles";
 import {Image} from "expo-image";
+import { COLORS } from '../../constants/colors';
+import {Ionicons} from "@expo/vector-icons";
 
 const SignUpScreen = () => {
 
@@ -64,11 +66,66 @@ const SignUpScreen = () => {
 
           <Text style={authStyles.title}>✍️ Create Account</Text>
 
-        </ScrollView>
+          <View style={authStyles.formContainer}>
 
+            {/* Email Input*/}
+          <View style={authStyles.inputContainer}>
+            <TextInput 
+            style={authStyles.textInput} 
+            placeholder="Enter Email"
+            placeholderTextColor={COLORS.textLight}
+            value={email}
+            onChangeText={setEmail}
+            keyboardType='email-address'
+            autoCapitalize='none'/>
+          </View>
+
+          {/* Password Input*/}
+          <View style={authStyles.inputContainer}>
+            <TextInput 
+            style={authStyles.textInput}
+            placeholder="Enter Password"
+            placeholderTextColor={COLORS.textLight}
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry={!showPassword}
+            autoCapitalize='none'/>
+
+            <TouchableOpacity
+            style={authStyles.eyeButton}
+            onPress={() => setShowPassword(!showPassword)}>
+              <Ionicons 
+              name={showPassword ? "eye-outline" : "eye-off-outline"}
+              size={20}
+              color={COLORS.textLight}/>
+              
+            </TouchableOpacity>
+          </View>
+
+          {/* Sign Up Button */}
+          <TouchableOpacity
+          style={[authStyles.authButton, loading && authStyles.buttonDisabled]}
+          onPress={handleSignUp}
+          disabled={loading}
+          activeOpacity={0.8}>
+
+            <Text style={authStyles.buttonText}>
+              {loading ? "Creating Account..." : "Sign Up"}
+            </Text>
+          </TouchableOpacity>
+
+          {/* Sign In Link */}
+          <TouchableOpacity
+          style={authStyles.linkContainer} onPress={() => router.back()}>
+            <Text style={authStyles.linkText}>
+              Already have an account? <Text style={authStyles.link}>Sign In</Text>
+            </Text>
+          </TouchableOpacity>
+        </View>
+        </ScrollView>
       </KeyboardAvoidingView>
     </View>
-  )
+  );
 }
 
 export default SignUpScreen;
