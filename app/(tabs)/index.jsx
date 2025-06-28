@@ -1,9 +1,11 @@
-import { View, Text, ScrollView } from 'react-native'
+import { View, Text, ScrollView, TouchableOpacity } from 'react-native'
 import { useEffect, useState } from 'react';
 import { useRouter} from 'expo-router';
 import { MealAPI} from "../../services/mealAPI";
 import { homeStyles } from "../../assets/styles/home.styles";
 import {Image} from "expo-image";
+import { COLORS } from '../../constants/colors';
+import { Ionicons } from '@expo/vector-icons';
 const HomeScreen = () => {
   const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -76,6 +78,7 @@ const HomeScreen = () => {
       refreshControl={() => {}}
       contentContainerStyle={homeStyles.scrollContent}>
 
+        {/* Animal Icons */}
         <View style={homeStyles.welcomeSection}>
           <Image 
           source={require("../../assets/images/lamb.png")}
@@ -84,7 +87,68 @@ const HomeScreen = () => {
             height: 100,
           }}/>
 
+          <Image 
+          source={require("../../assets/images/chicken.png")}
+          style={{
+            width: 100,
+            height: 100,
+          }}/>
+
+          <Image 
+          source={require("../../assets/images/pork.png")}
+          style={{
+            width: 100,
+            height: 100,
+          }}/>
+
         </View>
+
+        {/* Featured Section */}
+        {featuredRecipe && <View style={homeStyles.featuredSection}>
+          <TouchableOpacity
+          style={homeStyles.featuredCard}
+          activeOpacity={0.9}
+          onPress={() => router.push(`/recipe/${featuredRecipe.id}`)}>
+          
+          <View style={homeStyles.featuredImageContainer}>
+            <Image
+            source={{url: featuredRecipe.image}}
+            style={homeStyles.featuredImage}
+            contentFit='cover'
+            transition={500}/>
+
+            <View style={homeStyles.featuredOverlay}>
+              <View style={homeStyles.featuredBadge}>
+                <Text style={homeStyles.featuredBadgeText}>Featured</Text>
+              </View>
+              <View style={homeStyles.featuredContent}>
+                <Text style={homeStyles.featuredTitle} numberOfLines={2}>
+                  {featuredRecipe.title}
+                </Text>
+
+                <View style={homeStyles.featuredMeta}>
+                  <View style={homeStyles.metaItem}>
+                    <Ionicons name="time-outline" size={16} color={COLORS.white}/>
+                    <Text style={homeStyles.metaText}>{featuredRecipe.cookTime}</Text>
+                  </View>
+
+                  <View style={homeStyles.metaItem}>
+                    <Ionicons name="people-outline" size={16} color={COLORS.white}/>
+                    <Text style={homeStyles.metaText}>{featuredRecipe.servings}</Text>
+                  </View>
+                  
+                  {featuredRecipe.area && (                    
+                  <View style={homeStyles.metaItem}>
+                    <Ionicons name="location-outline" size={16} color={COLORS.white}/>
+                    <Text style={homeStyles.metaText}>{featuredRecipe.servings}</Text>
+                  </View>
+                  )}
+                </View>
+              </View>
+            </View>
+          </View>
+          </TouchableOpacity>
+          </View>}
 
       </ScrollView>
       <Text>HomeScreen</Text>
