@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useRouter} from 'expo-router';
 import { MealAPI} from "../../services/mealAPI";
 import { homeStyles } from "../../assets/styles/home.styles";
-import {Image} from "expo-image";
+import { Image } from "expo-image";
 import { COLORS } from '../../constants/colors';
 import { Ionicons } from '@expo/vector-icons';
 const HomeScreen = () => {
