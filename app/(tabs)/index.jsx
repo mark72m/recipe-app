@@ -75,7 +75,7 @@ const HomeScreen = () => {
     <View style={homeStyles.container}>
       <ScrollView
       showsVerticalScrollIndicator={false}
-      refreshControl={() => {}}
+      //refreshControl={() => {}}
       contentContainerStyle={homeStyles.scrollContent}>
 
         {/* Animal Icons */}
@@ -148,7 +148,7 @@ const HomeScreen = () => {
             </View>
           </View>
           </TouchableOpacity>
-          </View>}
+          </View>}          
 
       </ScrollView>
       <Text>HomeScreen</Text>
