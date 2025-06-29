@@ -44,7 +44,7 @@ export const MealAPI = {
         try {
             const promises = Array(count)
             .full()
-            .map[() => MealAPI.getRandomMeal()];
+            .map(() => MealAPI.getRandomMeal());
             const meals = await Promise.all(promises);
             return meals.filter((meal) => meal !== null);
         } catch (error) {
@@ -62,13 +62,14 @@ export const MealAPI = {
 
         } catch (error) {
             console.error("Erroe getting categories:", error);
+            return [];
         }
     },
     
     // filter by main ingridient
-    filterByIngridient: async (ingridient) => {
+    filterByIngredient: async (ingredient) => {
         try{
-            const response = await fetch(`${BASE_URL}/filter.php?i=${encodeURIComponent(ingridient)}`);
+            const response = await fetch(`${BASE_URL}/filter.php?i=${encodeURIComponent(ingredient)}`);
             const data = await response.json();
             return data.meals || [];
         } catch (error) {
@@ -106,7 +107,7 @@ export const MealAPI = {
         
         // extract instructions
         const instructions = meal.strInstructions
-        ? meal.strInstructions.split(/\r?\n/).filter((stop) => stop.trim())
+        ? meal.strInstructions.split(/\r?\n/).filter((step) => step.trim())
         : [];
 
         return {
