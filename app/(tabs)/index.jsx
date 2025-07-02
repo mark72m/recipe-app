@@ -7,6 +7,8 @@ import { Image } from "expo-image";
 import { COLORS } from '../../constants/colors';
 import { Ionicons } from '@expo/vector-icons';
 import  CategoryFilter  from '../../components/CategoryFilter';
+import RecipeCard from '../../components/RecipeCard';
+
 const HomeScreen = () => {
   const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState(null);
