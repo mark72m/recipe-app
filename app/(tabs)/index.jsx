@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native'
+import { View, Text, ScrollView, TouchableOpacity, FlatList } from 'react-native'
 import { useEffect, useState } from 'react';
 import { useRouter} from 'expo-router';
 import { MealAPI} from "../../services/mealAPI";
@@ -6,6 +6,7 @@ import { homeStyles } from "../../assets/styles/home.styles";
 import { Image } from "expo-image";
 import { COLORS } from '../../constants/colors';
 import { Ionicons } from '@expo/vector-icons';
+import  CategoryFilter  from '../../components/CategoryFilter';
 const HomeScreen = () => {
   const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -104,7 +105,7 @@ const HomeScreen = () => {
         </View>
 
         {/* Featured Section */}
-        {featuredRecipe && <View style={homeStyles.featuredSection}>
+        {featuredRecipe && (<View style={homeStyles.featuredSection}>
           <TouchableOpacity
           style={homeStyles.featuredCard}
           activeOpacity={0.9}
@@ -112,7 +113,7 @@ const HomeScreen = () => {
           
           <View style={homeStyles.featuredImageContainer}>
             <Image
-            source={{url: featuredRecipe.image}}
+            source={{uri: featuredRecipe.image}}
             style={homeStyles.featuredImage}
             contentFit='cover'
             transition={500}/>
@@ -140,7 +141,7 @@ const HomeScreen = () => {
                   {featuredRecipe.area && (                    
                   <View style={homeStyles.metaItem}>
                     <Ionicons name="location-outline" size={16} color={COLORS.white}/>
-                    <Text style={homeStyles.metaText}>{featuredRecipe.servings}</Text>
+                    <Text style={homeStyles.metaText}>{featuredRecipe.area}</Text>
                   </View>
                   )}
                 </View>
@@ -148,8 +149,41 @@ const HomeScreen = () => {
             </View>
           </View>
           </TouchableOpacity>
-          </View>}          
+          </View>
+          )}  
 
+          {categories.length > 0 && (
+            <CategoryFilter 
+            categories={categories}
+            selectedCategory={selectedCategory}
+            onSelectCategory={handleCategorySelect}/>
+          )}
+
+          <View style={homeStyles.recipesSection}>
+            <View style={homeStyles.sectionHeader}>
+              <Text style={homeStyles.sectionTitle}>{selectedCategory}</Text>
+            </View>
+
+
+          </View>
+          {recipes.length > 0 ? (
+            <FlatList
+              data={recipes}
+              renderItem={({ item }) => <RecipeCard recipe={item} />}
+              keyExtractor={(item) => item.id.toString()}
+              numColumns={2}
+              columnWrapperStyle={homeStyles.row}
+              contentContainerStyle={homeStyles.recipesGrid}
+              scrollEnabled={false}
+              // ListEmptyComponent={}
+            />
+          ) : (
+            <View style={homeStyles.emptyState}>
+              <Ionicons name="restaurant-outline" size={64} color={COLORS.textLight} />
+              <Text style={homeStyles.emptyTitle}>No recipes found</Text>
+              <Text style={homeStyles.emptyDescription}>Try a different category</Text>
+            </View>
+          )}
       </ScrollView>
       <Text>HomeScreen</Text>
     </View>
