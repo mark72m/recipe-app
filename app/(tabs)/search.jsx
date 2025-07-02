@@ -115,19 +115,39 @@ const SearchScreen = () => {
           </Text>
           <Text style={searchStyles.resultsCount}>{recipes.length} found</Text>
         </View>
-      </View>
 
-      {loading ? (
+        {loading ? (
         <View style={searchStyles.loadingContainer}>
           <Text>Loading...</Text>
         </View>
       ) : (
         <FlatList 
         data={recipes}
-        renderItem={({item}) => <RecipeCard recipe={item}/>} />
+        renderItem={({item}) => <RecipeCard recipe={item}/>} 
+        keyExtractor={(item) => item.id.toString()}
+        numColumns={2}
+        columnWrapperStyle={searchStyles.row}
+        contentContainerStyle={searchStyles.recipesGrid}
+        showsVerticalScrollIndicator={false}
+        ListEmptyComponent={<NoResultsFound />}/>
       )}
+      
+      </View>      
+    </View>
+  );
+};
+
+export default SearchScreen;
+
+function NoResultsFound() {
+  return (
+    <View style={searchStyles.emptyState}>
+      <Ionicons name="search-outline" size={64} color={COLORS.textLight}/>
+      <Text style={searchStyles.emptyTitle}>No Recipes Found !</Text>
+      <Text style={searchStyles.emptyDescription}>
+        Try Adjusting Your Search or Try Different Keywords...
+      </Text>
+
     </View>
   )
 }
-
-export default SearchScreen;
