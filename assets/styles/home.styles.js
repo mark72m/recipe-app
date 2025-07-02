@@ -193,6 +193,8 @@ export const recipeCardStyles = StyleSheet.create({
     backgroundColor: COLORS.card,
     borderRadius: 16,
     marginBottom: 16,
+    marginLeft: 8,
+    marginRight: 10,
     shadowColor: COLORS.shadow,
     shadowOffset: {
       width: 0,

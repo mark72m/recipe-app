@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, TouchableOpacity, FlatList } from 'react-native'
+import { View, Text, ScrollView, TouchableOpacity, FlatList, RefreshControl } from 'react-native'
 import { useEffect, useState } from 'react';
 import { useRouter} from 'expo-router';
 import { MealAPI} from "../../services/mealAPI";
@@ -36,6 +36,8 @@ const HomeScreen = () => {
 
       setCategories(transformedCategories);
 
+      if(!selectedCategory) setSelectedCategory(transformedCategories[0].name)
+
       const transformedMeals = randomMeals
       .map((meal) => MealAPI.transformMealData(meal))
       .filter((meal) => meal !== null)
@@ -69,6 +71,12 @@ const HomeScreen = () => {
     await loadCategoryData(category);
   };
 
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await loadData();
+    setRefreshing(false);
+  };
+
   useEffect(() => {
     loadData();
   }, []);
@@ -78,7 +86,11 @@ const HomeScreen = () => {
     <View style={homeStyles.container}>
       <ScrollView
       showsVerticalScrollIndicator={false}
-      //refreshControl={() => {}}
+      refreshControl={
+      <RefreshControl
+      refreshing={refreshing}
+      onRefresh={onRefresh}
+      tintColor={COLORS.primary}/>}
       contentContainerStyle={homeStyles.scrollContent}>
 
         {/* Animal Icons */}
@@ -187,7 +199,6 @@ const HomeScreen = () => {
             </View>
           )}
       </ScrollView>
-      <Text>HomeScreen</Text>
     </View>
   )
 }
