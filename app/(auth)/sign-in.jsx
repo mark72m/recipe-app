@@ -2,7 +2,6 @@ import {useSignIn} from "@clerk/clerk-expo";
 import {useRouter} from "expo-router";
 import { useState } from "react";
 import { View, Text, Alert, KeyboardAvoidingView, Platform, ScrollView, TextInput, TouchableOpacity } from 'react-native';
-
 import {authStyles} from "../../assets/styles/auth.styles";
 import {Image} from "expo-image";
 import { COLORS } from "../../constants/colors";
@@ -13,12 +12,12 @@ const SignInScreen = () => {
   const {signIn, setActive, isLoaded} = useSignIn();
   const [email, setEmail ]= useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleSignIn = async () => {
     if (!email || !password) {
-      Alert.alert("Please enter email and password");
+      Alert.alert("Error","Please enter email and password");
       return;
     }
 
@@ -29,13 +28,13 @@ const SignInScreen = () => {
     try {
       const signInAttempt = await signIn.create({
         identifier: email,
-        password
-      })
+        password,
+      });
 
       if (signInAttempt.status === "complete") {
         await setActive({session: signInAttempt.createdSessionId})
       }else {
-        Alert.alert("Error", "Sign In Failed. Please Try Again.");
+        Alert.alert("Error","Error", "Sign In Failed. Please Try Again.");
         console.error(JSON.stringify(signInAttempt, null, 2));
       }
     }catch (err){
@@ -46,7 +45,7 @@ const SignInScreen = () => {
       setLoading(false);
 
     }
-  }
+  };
 
   return (
     <View style={authStyles.container}>
@@ -120,16 +119,12 @@ const SignInScreen = () => {
              onPress={() => router.push("/(auth)/sign-up")}>
               <Text style={authStyles.linkText}>Don&apos;t have an account?<Text style={authStyles.link}>Sign up</Text>
               </Text>
-
              </TouchableOpacity>
-
             </View>
-
           </ScrollView>
-
       </KeyboardAvoidingView>
     </View>
-  )
-}
+  );
+};
 
 export default SignInScreen;
