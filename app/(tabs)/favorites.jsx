@@ -6,6 +6,8 @@ import { favoritesStyles } from '../../assets/styles/favorites.styles';
 import {Ionicons} from "@expo/vector-icons";
 import { COLORS } from '../../constants/colors';
 import RecipeCard from '../../components/RecipeCard';
+import NoFavoritesFound from '../../components/NoFavoritesFound';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 const FavoritesScreen = () => {
   const {signOut} = useClerk();
@@ -37,9 +39,14 @@ const FavoritesScreen = () => {
     loadFavorites();
   }, [user.id]);
 
-  const handleSignOut = async => {};
+  const handleSignOut = () => {
+    Alert.alert("Log Out", "Are you sure you want to log out..?",[
+      {text: "Cancel", style: "cancel"},
+      {text:"Log Out", style: "destructive", onPress: signOut},
+    ])
+  };
 
-  if (loading) return <Text>Loading Favorites...</Text>
+  if (loading) return <LoadingSpinner message="Loading Favorites..."/>
 
 
   return (
