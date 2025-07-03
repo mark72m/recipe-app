@@ -87,12 +87,9 @@ const VerifyEmail = ({email, onBack}) => {
               <Text style={authStyles.linkText}>
                 <Text style={authStyles.link}>Back to Sign Up</Text>
               </Text>
-
             </TouchableOpacity>
           </View>
-
         </ScrollView>
-
       </KeyboardAvoidingView>
     </View>
   )

@@ -8,6 +8,8 @@ import { COLORS } from '../../constants/colors';
 import { Ionicons } from '@expo/vector-icons';
 import  CategoryFilter  from '../../components/CategoryFilter';
 import RecipeCard from '../../components/RecipeCard';
+import LoadingSpinner from '../../components/LoadingSpinner';
+
 
 const HomeScreen = () => {
   const router = useRouter();
@@ -40,7 +42,7 @@ const HomeScreen = () => {
 
       const transformedMeals = randomMeals
       .map((meal) => MealAPI.transformMealData(meal))
-      .filter((meal) => meal !== null)
+      .filter((meal) => meal !== null);
 
       setRecipes(transformedMeals);
 
@@ -81,6 +83,8 @@ const HomeScreen = () => {
     loadData();
   }, []);
 
+  if (loading && !refreshing) return <LoadingSpinner message='Loading Delicious Meals...'/>;
+
 
   return (
     <View style={homeStyles.container}>
@@ -119,7 +123,8 @@ const HomeScreen = () => {
         </View>
 
         {/* Featured Section */}
-        {featuredRecipe && (<View style={homeStyles.featuredSection}>
+        {featuredRecipe && (
+          <View style={homeStyles.featuredSection}>
           <TouchableOpacity
           style={homeStyles.featuredCard}
           activeOpacity={0.9}
