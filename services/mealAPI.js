@@ -32,7 +32,6 @@ export const MealAPI = {
             const response = await fetch(`${BASE_URL}/random.php`);
             const data = await response.json();
             return data.meals ? data.meals[0] : null;
-
         } catch (error) {
             console.error("Error getting random meal:", error);
             return null;
@@ -59,14 +58,13 @@ export const MealAPI = {
             const response = await fetch(`${BASE_URL}/categories.php`);
             const data = await response.json();
             return data.categories || [];
-
         } catch (error) {
             console.error("Erroe getting categories:", error);
             return [];
         }
     },
     
-    // filter by main ingridient
+    // filter by main ingredient
     filterByIngredient: async (ingredient) => {
         try{
             const response = await fetch(`${BASE_URL}/filter.php?i=${encodeURIComponent(ingredient)}`);
