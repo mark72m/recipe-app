@@ -3,7 +3,7 @@ import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useUser } from '@clerk/clerk-expo';
 import { API_URL } from '../constants/api';
-import {MealAPI} from '../services/mealAPI';
+import { MealAPI } from '../services/mealAPI';
 
 const RecipeDetailsScreen = () => {
     const {id:recipeId} = useLocalSearchParams();
@@ -14,7 +14,6 @@ const RecipeDetailsScreen = () => {
 
     const {user} = useUser();
     const userId = user?.id;
-
 
     useEffect(() => {
         const checkIfSaved = async () => {
@@ -44,12 +43,19 @@ const RecipeDetailsScreen = () => {
                 }
 
             } catch (error){
-
+                console.error("Error Loading Recipe Detail:", error);
             } finally {
                 setLoading(false);
             }
-        }
-    }, [])
+        };
+
+        checkIfSaved();
+        loadRecipeDetail();
+    }, [recipeId, userId]);
+
+    const getYoutubeEmbedUrl = (url) => {
+        
+    }
   return (
     <View>
       <Text>RecipeDetailsScreen</Text>
