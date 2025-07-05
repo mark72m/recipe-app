@@ -56,9 +56,45 @@ const RecipeDetailsScreen = () => {
     // iUsing the web-View package
     const getYoutubeEmbedUrl = (url) => {
         const videoId = url.split("v=")[1]
-        return `https://www.youtube.com/embed/${videoId}`
-        
+        return `https://www.youtube.com/embed/${videoId}`        
     }
+
+    const handleToggleSave = async () => {
+        setIsSaving(true);
+        try {
+            if(isSaved) {
+                //Remove from favorites
+                const response = await fetch(`${API_URL}/favorites/${userId}/${recipeId}`,
+                    {method: "DELETE", 
+                    });
+
+                    if(!response.ok) throw new Error("Failed to remove recipe");
+                    setIsSaved(false);
+
+            }else {
+                // Add to favorites
+                const response = await fetch(`${API_URL}/favorites`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        userId,
+                        recipeId: parseInt(recipeId),
+                        title: recipe.title,
+                        image: recipe.image,
+                        cookTime: recipe.cookTime,
+                        servings: recipe.servings,
+                    }),
+                });
+
+            }
+        } catch (error) {
+
+        } finally {
+
+        }
+    };
   return (
     <View>
       <Text>RecipeDetailsScreen</Text>
