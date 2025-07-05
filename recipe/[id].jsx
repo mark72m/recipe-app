@@ -1,9 +1,12 @@
-import { View, Text } from 'react-native';
+import { View, Text, Alert, ScrollView } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useUser } from '@clerk/clerk-expo';
 import { API_URL } from '../constants/api';
 import { MealAPI } from '../services/mealAPI';
+import LoadingSpinner from '../components/LoadingSpinner';
+import { recipeDetailStyles } from '../assets/styles/recipe-details.styles';
+import {Image} from 'expo-image';
 
 const RecipeDetailsScreen = () => {
     const {id:recipeId} = useLocalSearchParams();
@@ -88,15 +91,35 @@ const RecipeDetailsScreen = () => {
                     }),
                 });
 
+                if (!response.ok) throw new Error("Failed to Save Recipe");
+                setIsSaved(true);
             }
         } catch (error) {
+            console.error("Error Toggling Recipe Save:", error);
+            Alert.alert("Error", `Something Went Wrong. Please try again.`);
 
         } finally {
-
+            setIsSaving(false);
         }
     };
+
+    if(loading) return <LoadingSpinner message='Loading Recipe Details...'/>
   return (
-    <View>
+    <View style={recipeDetailStyles.container}>
+        <ScrollView >
+            {/* Header */}
+            <View style={recipeDetailStyles.headerContainer}>
+                <View style={recipeDetailStyles.imageContainer}>
+                    <Image
+                    source={{uri: recipe.image}}
+                    style={recipeDetailStyles.headerImage}
+                    contentFit='cover'/>
+
+                </View>
+
+            </View>
+
+        </ScrollView>
       <Text>RecipeDetailsScreen</Text>
     </View>
   )
