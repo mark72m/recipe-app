@@ -10,6 +10,7 @@ import {Image} from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { COLORS } from '../../constants/colors';
 import { Ionicons } from '@expo/vector-icons';
+import { WebView} from 'react-native-webview';
 
 
 const RecipeDetailsScreen = () => {
@@ -171,11 +172,65 @@ const RecipeDetailsScreen = () => {
             <View style={recipeDetailStyles.contentSection}>
 
             {/* Quick Stats */}
-            <View>
-                
-            </View>
+            <View style={recipeDetailStyles.statsContainer}>
+                <View style={recipeDetailStyles.statCard}>
+                    <LinearGradient 
+                    colors={["#FF6B6B", "#FF8E53"]}
+                    style={recipeDetailStyles.statIconContainer}>
+                        <Ionicons name='time' size={20} color={COLORS.white}/>
+                    </LinearGradient>
+                    <Text style={recipeDetailStyles.statValue}>{recipe.cookTime}</Text>
+                    <Text style={recipeDetailStyles.statLabel}>Prep Time</Text>
+                </View>
+
+                <View style={recipeDetailStyles.statCard}>
+                    <LinearGradient 
+                    colors={["#4ECDC4","#44A08D"]}
+                    style={recipeDetailStyles.statIconContainer}>
+                        <Ionicons name='people' size={20} color={COLORS.white}/>
+                    </LinearGradient>
+                    <Text style={recipeDetailStyles.statValue}>{recipe.servings}</Text>
+                    <Text style={recipeDetailStyles.statLabel}>Servings</Text>
+                </View>
             </View>
 
+            {recipe.youtubeUrl && (
+                <View style={recipeDetailStyles.sectionContainer}>
+                    <View style={recipeDetailStyles.sectionTitleRow}>
+                        <LinearGradient
+                        colors={["#FF0000", "#CC0000"]}
+                        style={recipeDetailStyles.sectionIcon}>
+                            <Ionicons name='play' size={16} color={COLORS.white}/>
+                        </LinearGradient>
+                        <Text style={recipeDetailStyles.sectionTitle}>Video Tutorial</Text>
+                    </View>
+
+                    <View style={recipeDetailStyles.videoCard}>
+                        <WebView 
+                        style={recipeDetailStyles.webview}
+                        source={{uri: getYoutubeEmbedUrl(recipe.youtubeUrl)}}
+                        allowsFullscreenVideo
+                        mediaPlaybackRequiresUserAction={false}/>                        
+                    </View>
+                </View>
+            )}
+
+            {/* INGREDIENTS SECTION*/}
+            <View style={recipeDetailStyles.sectionContainer}>
+                <View style={recipeDetailStyles.sectionTitleRow}>
+                    <LinearGradient 
+                    colors={[COLORS.primary, COLORS.primary + "80"]}
+                    style={recipeDetailStyles.sectionIcon}>
+                        <Ionicons name='list' size={16} color={COLORS.white}/>      
+
+                    </LinearGradient>
+                    <Text style={recipeDetailStyles.sectionTitle}>Ingredients</Text>
+                    <View style={recipeDetailStyles.countBadge}>
+                        <Text style={recipeDetailStyles.countText}>{recipe.ingredients.length}</Text>
+                    </View>
+                </View>
+            </View>
+            </View>
         </ScrollView>
       <Text>RecipeDetailsScreen</Text>
     </View>
