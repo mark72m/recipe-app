@@ -2,10 +2,10 @@ import { View, Text, Alert, ScrollView } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useUser } from '@clerk/clerk-expo';
-import { API_URL } from '../constants/api';
-import { MealAPI } from '../services/mealAPI';
-import LoadingSpinner from '../components/LoadingSpinner';
-import { recipeDetailStyles } from '../assets/styles/recipe-details.styles';
+import { API_URL } from '../../constants/api';
+import { MealAPI } from '../../services/mealAPI';
+import LoadingSpinner from '../../components/LoadingSpinner';
+import { recipeDetailStyles } from '../../assets/styles/recipe-details.styles';
 import {Image} from 'expo-image';
 
 const RecipeDetailsScreen = () => {
